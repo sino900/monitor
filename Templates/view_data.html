@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View Data</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+
+<body>
+    <div class="box1">
+        <nav>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/logout">Logout</a></li>
+                
+            </ul>
+        </nav>
+        <div class="box2">
+            <h1>Welcome, {{ username }}</h1>
+            <div class="tables-container">
+                {% if user_table == 'all' %}
+                    {% for table_name, table_data in data.items() %}
+                        <div class="table-wrapper">
+                            <h2>{{ table_name }}</h2>
+                            <table>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>LDR Value</th>
+                                    <th>Timestamp</th>
+                                </tr>
+                                {% for row in table_data %}
+                                    <tr>
+                                        <td>{{ row[0] }}</td>
+                                        <td>{{ row[1] }}</td>
+                                        <td>{{ row[2] }}</td>
+                                    </tr>
+                                {% endfor %}
+                            </table>
+                        </div>
+                    {% endfor %}
+                {% else %}
+                    <div class="table-wrapper">
+                        <table>
+                            <tr>
+                                <th>ID</th>
+                                <th>LDR Value</th>
+                                <th>Timestamp</th>
+                            </tr>
+                            {% for row in data %}
+                                <tr>
+                                    <td>{{ row[0] }}</td>
+                                    <td>{{ row[1] }}</td>
+                                    <td>{{ row[2] }}</td>
+                                </tr>
+                            {% endfor %}
+                        </table>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

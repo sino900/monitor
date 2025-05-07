@@ -1,0 +1,75 @@
+{% extends 'Base.html' %}
+
+{% block content %}
+<h2>LDR_2 - Room Light Sensor</h2>
+
+<div style="width: 100%; max-width: 900px; height: 500px;">
+    <canvas id="ldr2Chart"></canvas>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    const ctx = document.getElementById('ldr2Chart').getContext('2d');
+
+    const ldr2Chart = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: [],
+            datasets: [{
+                label: 'LDR2 Value',
+                data: [],
+                borderColor: 'rgb(120, 99, 255)',
+                tension: 0.2,
+                fill: false
+            }]
+        },
+        options: {
+            maintainAspectRatio: false,
+            animation: false,
+            scales: {
+                x: { title: { display: true, text: 'Time' } },
+                y: { beginAtZero: true, title: { display: true, text: 'Value' } }
+            },
+            plugins: {
+                tooltip: {
+                    callbacks: {
+                        title: (ctx) => `Time: ${ctx[0].label}`,
+                        label: (ctx) => `Value: ${ctx.formattedValue}`
+                    }
+                }
+            }
+        }
+    });
+
+    const maxPoints = 20;
+
+    async function fetchLDR2Data() {
+        try {
+            const response = await fetch('/ldr2_data');
+            const json = await response.json();
+
+            if (!json.error) {
+                const time = json.timestamp;
+                const value = parseFloat(json.value);
+
+                if (!isNaN(value)) {
+                    ldr2Chart.data.labels.push(time);
+                    ldr2Chart.data.datasets[0].data.push(value);
+
+                    if (ldr2Chart.data.labels.length > maxPoints) {
+                        ldr2Chart.data.labels.shift();
+                        ldr2Chart.data.datasets[0].data.shift();
+                    }
+
+                    ldr2Chart.update();
+                }
+            }
+        } catch (error) {
+            console.error("Error fetching LDR2 data:", error);
+        }
+    }
+
+    fetchLDR2Data();
+    setInterval(fetchLDR2Data, 5000);
+</script>
+{% endblock %}

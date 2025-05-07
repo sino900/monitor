@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Verification Result</title>
+    <link rel="stylesheet" href="/static/style/styles3.css">
+</head>
+<body>
+
+<div class="wrapper">
+
+    <div class="p5">
+        {% if exists %}
+        <p class ="p1"> {{ username }} succesfully Logged in! </p>
+        
+        {% else %}
+        <p class="p2"> {{ username }} INVALID CREDENTIALS!</p>
+        
+        {% endif %}
+    </div>
+
+    <p class="p3">Verification Result</p>
+
+    <div class="div3">
+
+    {% if username == "220172609" %}
+        <a href="/ldr_1">Light-Sensor 1</a>
+    {% elif username == "224121618" %}
+        <a href="/ldr_2">Light-Sensor 2</a>
+    {% elif username == "218248032" %}
+        <a href="/temperature">Temperature-Sensor</a>
+    {% elif username == "221741852" %}
+        <a href="/pir">Passive Infra-red Sensor</a>
+    {% elif username == "221011838" %}
+        <a href="/ldr_3">Light Sensor 3</a>
+    {% elif username == "223298131" %}  
+        <a href="/admin">Humidity Sensor</a>
+        <a href="/admin_2">Admin</a>         
+    {% else %}
+        <a href="/register">Register</a>
+    {% endif %}
+
+    </div>
+
+    <div class="div4">
+    
+    <button class="btn"><a style="text-decoration:none" href="/">Go back</a></button>
+
+    </div> 
+
+</div>
+
+    
+</body>
+</html>

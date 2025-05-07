@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Send Telegram Message</title>
+    <link rel="stylesheet" href="/static/style/style5.css">
+</head>
+<body class="message">
+
+    <div class="message-container">
+        <h2>Send Message to Telegram Group</h2>
+        <form method="post">
+            <textarea name="message" rows="5" placeholder="Type your message here..." required></textarea>
+            <input type="submit" value="Send">
+        </form>
+        {% if success is not none %}
+            <div class="status {{ 'error' if not success else '' }}">
+                {{ 'Message sent successfully!' if success else 'Failed to send message.' }}
+            </div>
+        {% endif %}
+    </div>
+
+
+
+</body>
+</html>

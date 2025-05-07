@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %} {% endblock %}</title>
+    <link rel="stylesheet" href="/static/style/styles2.css">
+    <link rel="stylesheet" href="path/to/feathericon.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+</head>
+
+
+
+<body>
+
+<div>
+        <ul>
+            <li >
+             <a href="/send-message">
+                <div class="icon"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAeCAYAAAA7MK6iAAAAAXNSR0IArs4c6QAAAZNJREFUSEvt1s8rRUEUwPHvyx+A1NuLpGxk8SwkLJTyH1jYKGXxllLYUcqSjSxs/AVK2Sg/opCShR8L/AGKwtqPe2puTePdO/fMva+Xclav7sz5zNx35p4p0aAoNcglFG4GqmbR68CbdgMhcCtwBnQZ7A7oBz40uAZuARaAKUBwO16ALWAZeM+ygKzwBLAGtHmSPgPTwI4PzwIvAku+RM7zGWAjbY4PHgYOlKgM/wYqwGXS3DRYnt1bRaT1T4DBEHgc2NVqzvg+4KpWjrQdSzHFZzXUnwNWtfBedF7HQkUzbxuY1MJSVFJceWIfGNXCh1FFD+VRgaOkxaf9x/9wyFv/O6+6M6rGU6Acsk1rjjSNAeDBzVOruLpNNeZFY0vwEeDWxl1Y+uwTIL23yHgF2u1e7cJybuUY1SMk93Gc2IWllZ3XQzXXo4skuAnYBDoKxh/NzeQzCS7YS07nu4G4M3vNrULejB1fgPTe66wr18KSV/rrrAOsAPNZURkXAsu8HvNhkN/yobnRoHlgrfNrfOiOc8M/eaI8H4OJpWYAAAAASUVORK5CYII="/></div>
+                <div class="name">SEND-ALERT</div>
+                </a>
+            </li>
+
+            <li>
+                <a href="/logout">
+                    <div class="icon"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAeCAYAAAA7MK6iAAAAAXNSR0IArs4c6QAAAltJREFUSEvV1snLjWEYBvDfV7IwFEmRuYREiAxl2oqyEpIomTeKBdnwB5AMC8VCSdkgU2LDRokyZIgVxUrJkEiJ9/56jt7vdb7vPGcouet06pzrea7nnq777vKPrOsf8foviYdgNAbjXfr8zI1gsx6vxGosxqgKyQ/cx00cxce+HpFLPBZnsSjToy8F7gAO94bPIZ6L6xhWuuQxrhXev8AHTMYCLMOgEu4UtuGvFOQQL8QNDEwP2IcnvXgyADuwH1EDYUG+uYrPIY4zQT4DJzJDPQYXMCfhgzge8MdyiTP5esCG4i6m4BPGpe9uUCPi4diNva0wYzYepLMHU8E1JI5DV/AKS1skjmNXizZbjteYULunN4/Xp5z0x502iTeV8jsdT+uFul9q/u2V1tnVhMe3K9ipeJZ+W4PzVeLI5+WideY3QVIPWo1iSOrnBIx66RaVMmhkymnkth2rEoeghJKF7Sm0/VC9UEdOj1caPlSqnVBPwstEvA7n+mqnLYVEHkMnimtncib4ZuFRoz6OXEfOn7dZ1Q8xE28wvlE71f6PvEdeoihasbW10Bb1lC0grRCVz4xI0QrpDMmM+f011+MaLuZw5CcGfI7FkLiYJDPwGwvVOlM+2EirA7skjcMYeZcQhfe+D/YNxUg8UhqLJ9NM7nEkh7i6CMTgj20kZvS30m3TCoValdai2s+nsbXVRSAumZjI5uXEOQlGFFO3WNSzHI/L51Yg9DZyHntY2b4Xq8893EoLQ0eWvXqPjlUo+jK0+G1ab39lRqThIpB7T9O4ZkPdNEGnctwx4t8ku2AfLgil4AAAAABJRU5ErkJggg=="/> </div>
+                    <div class="name">log out</div>
+                </a>
+            </li>
+        </ul>
+</div>
+   <br>
+   <br>
+   <br>
+   <br>
+
+<div class="canvas">
+    <div>
+        
+        {%block content%} {%endblock%} 
+
+    <div>
+
+<div>
+
+        
+
+
+
+
+
+   
+</body>
+</html>

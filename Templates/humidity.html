@@ -1,0 +1,99 @@
+{% extends 'Base.html' %}
+
+{% block content %}
+<h2>Real-Time Humidity Sensor Data</h2>
+
+<!-- Responsive chart container -->
+<div style="position: relative; width: 100%; max-width: 900px; height: 500px;">
+    <canvas id="humidityChart"></canvas>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    const ctx = document.getElementById('humidityChart').getContext('2d');
+
+    const humidityChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: [],
+            datasets: [{
+                label: 'Humidity (%)',
+                data: [],
+                borderColor: 'rgba(54, 162, 235, 1)',
+                backgroundColor: 'rgba(54, 162, 235, 0.1)',
+                tension: 0.2,
+                fill: true
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            animation: false,
+            scales: {
+                x: { 
+                    title: { display: true, text: 'Time' }
+                },
+                y: { 
+                    beginAtZero: true,
+                    title: { display: true, text: 'Humidity (%)' }
+                }
+            },
+            plugins: {
+                tooltip: {
+                    callbacks: {
+                        title: (ctx) => `Time: ${ctx[0].label}`,
+                        label: (ctx) => `Humidity: ${ctx.formattedValue}%`
+                    }
+                }
+            }
+        }
+    });
+
+    const maxPoints = 20;
+
+    async function fetchHumidityData() {
+        try {
+            const response = await fetch('/humidity_data');
+            const json = await response.json();
+
+            if (!json.error) {
+                const time = json.timestamp;
+                const value = parseFloat(json.value);
+
+                if (!isNaN(value)) {
+                    humidityChart.data.labels.push(time);
+                    humidityChart.data.datasets[0].data.push(value);
+
+                    if (humidityChart.data.labels.length > maxPoints) {
+                        humidityChart.data.labels.shift();
+                        humidityChart.data.datasets[0].data.shift();
+                    }
+
+                    humidityChart.update();
+                }
+            }
+        } catch (error) {
+            console.error("Error fetching humidity data:", error);
+        }
+    }
+
+    fetchHumidityData();
+    setInterval(fetchHumidityData, 5000); // Fetch every 5 seconds
+</script>
+{% endblock %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

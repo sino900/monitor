@@ -1,0 +1,77 @@
+{% extends 'Base.html' %}
+
+{% block content %}
+<h2>LDR_1 - Door Sensor</h2>
+
+<div class="chart-container" style="width: 100%; max-width: 900px; height: 500px;">
+    <canvas id="ldr1Chart"></canvas>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    const ctx = document.getElementById('ldr1Chart').getContext('2d');
+
+    const ldr1Chart = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: [],
+            datasets: [{
+                label: 'LDR1 Value',
+                data: [],
+                borderColor: 'rgb(99, 255, 99)',
+                tension: 0.2,
+                fill: false
+            }]
+        },
+        options: {
+            maintainAspectRatio: false,
+            animation: false,
+            scales: {
+                x: { title: { display: true, text: 'Time' } },
+                y: { beginAtZero: true, title: { display: true, text: 'Value' } }
+            },
+            plugins: {
+                tooltip: {
+                    callbacks: {
+                        title: (ctx) => `Time: ${ctx[0].label}`,
+                        label: (ctx) => `Value: ${ctx.formattedValue}`
+                    }
+                }
+            }
+        }
+    });
+
+    const maxPoints = 20;
+
+    async function fetchLDR1Data() {
+        try {
+            const response = await fetch('/ldr1_data');
+            const json = await response.json();
+
+            if (!json.error) {
+                const time = json.timestamp;
+                const value = parseFloat(json.value);
+
+                if (!isNaN(value)) {
+                    ldr1Chart.data.labels.push(time);
+                    ldr1Chart.data.datasets[0].data.push(value);
+
+                    if (ldr1Chart.data.labels.length > maxPoints) {
+                        ldr1Chart.data.labels.shift();
+                        ldr1Chart.data.datasets[0].data.shift();
+                    }
+
+                    ldr1Chart.update();
+                }
+            } else {
+                console.warn("LDR1 fetch returned error:", json.error);
+            }
+        } catch (error) {
+            console.error("Error fetching LDR1 data:", error);
+        }
+    }
+
+    fetchLDR1Data();
+    setInterval(fetchLDR1Data, 5000);
+</script>
+{% endblock %}

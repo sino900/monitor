@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin</title>
+    <link rel="stylesheet" href="/static/style/style4.css">
+</head>
+<body>
+
+<div class="nav">
+    <ul>
+        <li >
+         <a href="/send-message">
+            <div class="icon"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAeCAYAAAA7MK6iAAAAAXNSR0IArs4c6QAAAZNJREFUSEvt1s8rRUEUwPHvyx+A1NuLpGxk8SwkLJTyH1jYKGXxllLYUcqSjSxs/AVK2Sg/opCShR8L/AGKwtqPe2puTePdO/fMva+Xclav7sz5zNx35p4p0aAoNcglFG4GqmbR68CbdgMhcCtwBnQZ7A7oBz40uAZuARaAKUBwO16ALWAZeM+ygKzwBLAGtHmSPgPTwI4PzwIvAku+RM7zGWAjbY4PHgYOlKgM/wYqwGXS3DRYnt1bRaT1T4DBEHgc2NVqzvg+4KpWjrQdSzHFZzXUnwNWtfBedF7HQkUzbxuY1MJSVFJceWIfGNXCh1FFD+VRgaOkxaf9x/9wyFv/O6+6M6rGU6Acsk1rjjSNAeDBzVOruLpNNeZFY0vwEeDWxl1Y+uwTIL23yHgF2u1e7cJybuUY1SMk93Gc2IWllZ3XQzXXo4skuAnYBDoKxh/NzeQzCS7YS07nu4G4M3vNrULejB1fgPTe66wr18KSV/rrrAOsAPNZURkXAsu8HvNhkN/yobnRoHlgrfNrfOiOc8M/eaI8H4OJpWYAAAAASUVORK5CYII="/></div>
+            <div class="name">ALERT-USERS</div>
+            </a>
+        </li>
+
+        <li>
+            <a href="/logout">
+                <div class="icon"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAeCAYAAAA7MK6iAAAAAXNSR0IArs4c6QAAAltJREFUSEvV1snLjWEYBvDfV7IwFEmRuYREiAxl2oqyEpIomTeKBdnwB5AMC8VCSdkgU2LDRokyZIgVxUrJkEiJ9/56jt7vdb7vPGcouet06pzrea7nnq777vKPrOsf8foviYdgNAbjXfr8zI1gsx6vxGosxqgKyQ/cx00cxce+HpFLPBZnsSjToy8F7gAO94bPIZ6L6xhWuuQxrhXev8AHTMYCLMOgEu4UtuGvFOQQL8QNDEwP2IcnvXgyADuwH1EDYUG+uYrPIY4zQT4DJzJDPQYXMCfhgzge8MdyiTP5esCG4i6m4BPGpe9uUCPi4diNva0wYzYepLMHU8E1JI5DV/AKS1skjmNXizZbjteYULunN4/Xp5z0x502iTeV8jsdT+uFul9q/u2V1tnVhMe3K9ipeJZ+W4PzVeLI5+WideY3QVIPWo1iSOrnBIx66RaVMmhkymnkth2rEoeghJKF7Sm0/VC9UEdOj1caPlSqnVBPwstEvA7n+mqnLYVEHkMnimtncib4ZuFRoz6OXEfOn7dZ1Q8xE28wvlE71f6PvEdeoihasbW10Bb1lC0grRCVz4xI0QrpDMmM+f011+MaLuZw5CcGfI7FkLiYJDPwGwvVOlM+2EirA7skjcMYeZcQhfe+D/YNxUg8UhqLJ9NM7nEkh7i6CMTgj20kZvS30m3TCoValdai2s+nsbXVRSAumZjI5uXEOQlGFFO3WNSzHI/L51Yg9DZyHntY2b4Xq8893EoLQ0eWvXqPjlUo+jK0+G1ab39lRqThIpB7T9O4ZkPdNEGnctwx4t8ku2AfLgil4AAAAABJRU5ErkJggg=="/> </div>
+                <div class="name">log out</div>
+            </a>
+        </li>
+    </ul>
+</div>
+<br>
+<br>
+<br>
+<br>
+
+
+<h2>Sensor Dashboard</h2>
+
+
+<div class="dashboard">
+    <div class="chart-box"><h3>Temperature</h3><canvas id="tempChart"></canvas></div>
+    <div class="chart-box"><h3>Humidity</h3><canvas id="humidityChart"></canvas></div>
+    <div class="chart-box"><h3>PIR Sensor</h3><canvas id="pirChart"></canvas></div>
+    <div class="chart-box"><h3>LDR 1</h3><canvas id="ldr1Chart"></canvas></div>
+    <div class="chart-box"><h3>LDR 2</h3><canvas id="ldr2Chart"></canvas></div>
+    <div class="chart-box"><h3>LDR 3</h3><canvas id="ldr3Chart"></canvas></div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    const maxPoints = 20;
+
+    function createSensorChart(ctxId, label, color) {
+        const ctx = document.getElementById(ctxId).getContext('2d');
+        return new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: [],
+                datasets: [{
+                    label: label,
+                    data: [],
+                    borderColor: color,
+                    tension: 0.2,
+                    fill: false
+                }]
+            },
+            options: {
+                maintainAspectRatio: false,
+                animation: false,
+                scales: {
+                    x: { title: { display: true, text: 'Time' }},
+                    y: { beginAtZero: true, title: { display: true, text: 'Value' }}
+                }
+            }
+        });
+    }
+
+    const charts = {
+        temperature: createSensorChart('tempChart', 'Temperature (°C)', 'red'),
+        humidity: createSensorChart('humidityChart', 'Humidity (%)', 'blue'),
+        pir: createSensorChart('pirChart', 'Motion Detected', 'orange'),
+        ldr1: createSensorChart('ldr1Chart', 'LDR1', 'green'),
+        ldr2: createSensorChart('ldr2Chart', 'LDR2', 'purple'),
+        ldr3: createSensorChart('ldr3Chart', 'LDR3', 'brown')
+    };
+
+    async function updateChartData(sensor, url) {
+        try {
+            const res = await fetch(url);
+            const json = await res.json();
+            if (!json.error) {
+                const time = json.timestamp;
+                const value = parseFloat(json.value);
+                const chart = charts[sensor];
+
+                if (!isNaN(value)) {
+                    chart.data.labels.push(time);
+                    chart.data.datasets[0].data.push(value);
+
+                    if (chart.data.labels.length > maxPoints) {
+                        chart.data.labels.shift();
+                        chart.data.datasets[0].data.shift();
+                    }
+
+                    chart.update();
+                }
+            }
+        } catch (err) {
+            console.error(`Error updating ${sensor}:`, err);
+        }
+    }
+
+    const sensorEndpoints = {
+        temperature: '/temp_data',
+        humidity: '/humidity_data',
+        pir: '/pir_data',
+        ldr1: '/ldr1_data',
+        ldr2: '/ldr2_data',
+        ldr3: '/ldr3_data'
+    };
+
+    function pollAllSensors() {
+        for (const [sensor, url] of Object.entries(sensorEndpoints)) {
+            updateChartData(sensor, url);
+        }
+    }
+
+    pollAllSensors();
+    setInterval(pollAllSensors, 10000);
+</script>
+    
+</body>
+</html>
+
